@@ -4,3 +4,4 @@ ui/__pycache__
 test_bd.py
 data.db
 Menu_bar.py
+log.txt

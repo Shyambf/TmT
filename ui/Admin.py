@@ -40,9 +40,12 @@ class Admin_ui(object):
         self.action_3.setObjectName("action_3")
         self.action = QtWidgets.QAction(MainWindow)
         self.action.setObjectName("action")
+        self.action_4 = QtWidgets.QAction(MainWindow)
+        self.action_4.setObjectName("action_4")
         self.menu.addAction(self.action_2)
         self.menu.addAction(self.action_3)
         self.menu.addAction(self.action)
+        self.menu.addAction(self.action_4)
         self.menuBar.addAction(self.menu.menuAction())
 
         self.retranslateUi(MainWindow)
@@ -55,24 +58,27 @@ class Admin_ui(object):
         self.action_2.setText(_translate("MainWindow", "Создать новую учебную группу"))
         self.action_3.setText(_translate("MainWindow", "Создать преподавателя"))
         self.action.setText(_translate("MainWindow", "История"))
+        self.action_4.setText(_translate("MainWindow", "Список всех групп "))
 
 
 class Window_admin(QtWidgets.QMainWindow, Admin_ui):
     def __init__(self):
         super(Window_admin, self).__init__()
         self.setupUi(self)
-        self.data = Bd()
+        self.bd = Bd()
         self.init_ui()
 
     def init_ui(self):
-        res = self.data.get_all_group()
+        res = self.bd.get_all_group()
         self.tableWidget.setColumnCount(4)
-        self.tableWidget.setHorizontalHeaderLabels(['id','num','teacher', 'button'])
+        self.tableWidget.setHorizontalHeaderLabels(['name','num','teacher', 'button'])
         # Заполняем таблицу элементами
         for i, row in enumerate(res):
             self.tableWidget.setRowCount(
                 self.tableWidget.rowCount() + 1)
             for j, elem in enumerate(row):
+                if elem == row[2]:
+                    elem = self.bd.get_teacher_by_id(row[2])
                 self.tableWidget.setItem(
                     i, j, QtWidgets.QTableWidgetItem(str(elem)))
             self.tableWidget.setCellWidget(
