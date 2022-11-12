@@ -256,8 +256,6 @@ class student_ui(object):
         self.verticalLayout.addLayout(self.horizontalLayout_10)
         self.horizontalLayout_3.addLayout(self.verticalLayout)
         MainWindow.setCentralWidget(self.centralwidget)
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
         self.menuBar.setGeometry(QtCore.QRect(0, 0, 709, 26))
         self.menuBar.setObjectName("menuBar")
@@ -338,7 +336,7 @@ class Window_student(QtWidgets.QMainWindow, student_ui):
                 self.lineEdit_10.setText(data[11])
                 self.lineEdit_11.setText(data[12])
             except BaseException:
-                pass
+                self.spinBox.setDisabled(True)
 
     def save(self):
         groups = self.spinBox_2.value()

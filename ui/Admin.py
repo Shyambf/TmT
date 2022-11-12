@@ -86,7 +86,7 @@ class Admin_ui(object):
         self.action_3.setText(_translate(
             "MainWindow", "Создать преподавателя")
         )
-        self.action.setText(_translate("MainWindow", "История"))
+        self.action.setText(_translate("MainWindow", "Создать ученика"))
         self.action_4.setText(_translate("MainWindow", "Список всех групп "))
 
 

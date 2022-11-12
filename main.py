@@ -124,6 +124,11 @@ Password = "{str(self.login.lineEdit_2.text())}"
         self.addActions(self.ad_user)
         self.ad_user.show()
 
+    def add_student(self, window):
+        window.close()
+        self.std = Window_student(flag=False)
+        self.std.show()
+
     def bot(self, window, group):
         window.close()
         self.bots = Window_bot(group)
@@ -141,6 +146,9 @@ Password = "{str(self.login.lineEdit_2.text())}"
             )
         window.action_3.triggered.connect(
             lambda: self.add_user(window)
+            )
+        window.action.triggered.connect(
+            lambda: self.add_student(window)
             )
         if not self.flag:
             window.menu.setDisabled(False)
