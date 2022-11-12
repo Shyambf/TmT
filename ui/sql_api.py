@@ -1,7 +1,6 @@
 import hashlib
 import sqlite3
 import uuid
-from datetime import datetime
 
 
 class Bd:
@@ -66,10 +65,17 @@ class Bd:
             "SELECT id, name, num_students, teacher FROM groups"
             ).fetchall()
 
+    def get_all_group_teacher(self, id) -> list:
+        return self.cur.execute(
+            "SELECT id, name, num_students, teacher FROM \
+                groups WHERE id = (?)",
+            (id,)
+            ).fetchall()
+
     def add_teacher(self, nam: str, desc: str, acc: int, login: str, pss: str):
         login = self.__hash(login)
-        passwd = self.__hash(passwd)
-        teacher = (None, nam, desc, acc, login, pss)
+        passwd = self.__hash(pss)
+        teacher = (None, nam, desc, acc, login, passwd)
         self.cur.execute(
             "INSERT INTO teacher VALUES(?, ?, ?, ?, ?, ?);",
             teacher
@@ -86,9 +92,9 @@ class Bd:
         self.cur.execute("INSERT INTO groups VALUES(?, ?, ?, ?, ?);", group)
         self.conn.commit()
 
-    def get_teacher_by_id(self, id: int) -> str:
+    def get_teacher_by_id(self, id: int):
         return self.cur.execute(
-            f"SELECT name FROM teacher WHERE id = {id}"
+            "SELECT name FROM teacher WHERE id = (?)", (id,)
         ).fetchone()[0]
 
     def get_id_by_teacher(self, name) -> str:
@@ -101,9 +107,10 @@ class Bd:
             f'SELECT * FROM groups WHERE id = {id}'
         ).fetchone()
 
-    def get_all_students_group(self, id: int) -> list:
+    def get_all_students_group(self, id) -> list:
         return self.cur.execute(
-            f'SELECT id, name FROM students WHERE groups = {id}'
+            'SELECT id, name FROM students WHERE groups = (?)',
+            (id,)
         ).fetchall()
 
     def get_group_id_by_name(self, name):
@@ -150,13 +157,22 @@ class Bd:
         self.cur.execute("SELECT * FROM teacher")
         user = self.cur.fetchall()
         if login == 'admin' and password == 'admin':
-            return 2
+            return [2, 2]
+        flag = False
         for i in user:
             if self.__gethash(self.__hash(login)) == self.__gethash(i[4]) and \
              self.__gethash(self.__hash(password)) == self.__gethash(i[5]):
-                return i[3]
+                flag = True
+                return [i[3], i[0]]
             else:
-                return 0
+                pass
+        if not flag:
+            return 0
+
+    def get_teacher_groups(self, id):
+        return self.cur.execute(
+            f"SELECT name FROM groups WHERE teacher = (?)", (id,)
+        ).fetchall()
 
     def update_student_info(
         self,

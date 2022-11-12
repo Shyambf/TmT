@@ -7,15 +7,16 @@ from ui.Student import Window_student
 from ui.Add_user import Window_add_user
 from ui.Bot import Window_bot
 from ui.sql_api import Bd
-import time
+import logging
 import sys
 import os
 
 
 class MainFrom(QWidget):
-    def __init__(self):
+    def __init__(self, log):
         super(MainFrom, self).__init__()
         self.bd = Bd()
+        self.logging = log
         self.dir = os.path.abspath(os.curdir)
         self.login = Window_login()
         self.login.pushButton.clicked.connect(self.login_action)
@@ -34,25 +35,27 @@ Password = "{str(self.login.lineEdit_2.text())}"
             str(self.login.lineEdit.text()),
             str(self.login.lineEdit_2.text())
             )
-        if check == 2:
+        self.id = check[1]
+        print(self.id)
+        self.name = self.bd.get_teacher_by_id(self.id)
+        if check[0] == 2:
+            self.flag = True
+            self.logging.info(
+                f'В систему вошел {self.bd.get_teacher_by_id(self.id)}'
+            )
             self.admin_w(self.login)
-            self.check = 2
-        elif check == 1:
-            self.check = 1
-            pass
+        elif check[0] == 1:
+            self.flag = False
+            self.admin_w(self.login)
         else:
             QMessageBox.about(self, "Error", "Wrong Login or password")
 
     def admin_w(self, last_window):
         last_window.close()
-        self.admin = Window_admin()
-        for i in self.bd.get_all_group():
-            self.admin.comboBox.addItem(i[1])
-        name = self.admin.comboBox.currentText()
-        id = self.bd.get_group_id_by_name(name)[0]
+        self.admin = Window_admin(self.flag, self.id)
         self.admin.pushButton_2.clicked.connect(
-            lambda: self.view_group(windows=self.admin, ids=id)
-            )
+            lambda: self.view_group(windows=self.admin, ids=self.admin.ids)
+        )
         self.admin.show()
         self.addActions(self.admin)
 
@@ -139,9 +142,20 @@ Password = "{str(self.login.lineEdit_2.text())}"
         window.action_3.triggered.connect(
             lambda: self.add_user(window)
             )
+        if not self.flag:
+            window.menu.setDisabled(False)
 
 
 if __name__ == '__main__':
+    log = logging
+    log.basicConfig(
+        filename='History.log',
+        filemode='a',
+        format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
+        datefmt='%H:%M:%S',
+        level=logging.INFO
+    )
+    log.info('-' * 80)
     app = QApplication(sys.argv)
-    main_app = MainFrom()
+    main_app = MainFrom(log)
     sys.exit(app.exec_())
