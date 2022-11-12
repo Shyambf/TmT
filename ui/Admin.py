@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ui/ui_template/bBadmin.ui'
+# Form implementation generated from reading ui file
+# 'ui/ui_template/bBadmin.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.6
 #
@@ -9,8 +10,10 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 import sys
 from ui.sql_api import Bd
+
 
 class Admin_ui(object):
     def setupUi(self, MainWindow):
@@ -24,20 +27,26 @@ class Admin_ui(object):
         self.verticalLayout.setObjectName("verticalLayout")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding,
+            QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout.addItem(spacerItem)
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setObjectName("label")
         self.label.setText('Войти в группу с id')
         self.horizontalLayout.addWidget(self.label)
-        self.spinBox = QtWidgets.QSpinBox(self.centralwidget)
-        self.spinBox.setObjectName("spinBox")
-        self.horizontalLayout.addWidget(self.spinBox)
+        self.comboBox = QtWidgets.QComboBox(self.centralwidget)
+        self.comboBox.setObjectName("comboBox")
+        self.horizontalLayout.addWidget(self.comboBox)
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setObjectName("pushButton_2")
         self.pushButton_2.setText('Войти')
         self.horizontalLayout.addWidget(self.pushButton_2)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding,
+            QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout.addItem(spacerItem1)
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
@@ -46,8 +55,7 @@ class Admin_ui(object):
         self.horizontalLayout_3.addLayout(self.verticalLayout)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setEnabled(True)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 535, 26))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 709, 26))
         self.menuBar.setObjectName("menuBar")
         self.menu = QtWidgets.QMenu(self.menuBar)
         self.menu.setObjectName("menu")
@@ -62,24 +70,22 @@ class Admin_ui(object):
         self.action_4.setObjectName("action_4")
         self.menu.addAction(self.action_2)
         self.menu.addAction(self.action_3)
-        self.menu.addAction(self.action)
         self.menu.addAction(self.action_4)
+        self.menu.addAction(self.action)
         self.menuBar.addAction(self.menu.menuAction())
-
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.menu.setTitle(_translate("MainWindow", "Меню"))
         self.action_2.setText(_translate(
-            "MainWindow",
-            "Создать новую учебную группу")
+            "MainWindow", "Создать новую учебную группу")
         )
         self.action_3.setText(_translate(
-            "MainWindow",
-            "Создать преподавателя")
+            "MainWindow", "Создать преподавателя")
         )
         self.action.setText(_translate("MainWindow", "История"))
         self.action_4.setText(_translate("MainWindow", "Список всех групп "))
@@ -106,7 +112,7 @@ class Window_admin(QtWidgets.QMainWindow, Admin_ui):
                 if elem == row[3] and j == 3:
                     elem = self.bd.get_teacher_by_id(row[3])[0]
                 self.tableWidget.setItem(
-                    i, j, QtWidgets.QTableWidgetItem(str(elem)))   
+                    i, j, QtWidgets.QTableWidgetItem(str(elem)))
 
 
 if __name__ == '__main__':

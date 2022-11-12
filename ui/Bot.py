@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from sql_api import Bd
+from ui.sql_api import Bd
 import requests
 import sys
 import random
@@ -33,7 +33,10 @@ class Bot_ui(object):
         self.verticalLayout.addWidget(self.textEdit)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(
+            40, 20, QtWidgets.QSizePolicy.Expanding,
+            QtWidgets.QSizePolicy.Minimum
+        )
         self.horizontalLayout.addItem(spacerItem)
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setObjectName("pushButton_2")
@@ -48,54 +51,38 @@ class Bot_ui(object):
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.horizontalLayout_3.addLayout(self.verticalLayout)
         MainWindow.setCentralWidget(self.centralwidget)
-        self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setEnabled(True)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 709, 26))
-        self.menuBar.setObjectName("menuBar")
-        self.menu = QtWidgets.QMenu(self.menuBar)
-        self.menu.setObjectName("menu")
-        MainWindow.setMenuBar(self.menuBar)
-        self.action_2 = QtWidgets.QAction(MainWindow)
-        self.action_2.setObjectName("action_2")
-        self.action_3 = QtWidgets.QAction(MainWindow)
-        self.action_3.setObjectName("action_3")
-        self.action = QtWidgets.QAction(MainWindow)
-        self.action.setObjectName("action")
-        self.action_4 = QtWidgets.QAction(MainWindow)
-        self.action_4.setObjectName("action_4")
-        self.menu.addAction(self.action_2)
-        self.menu.addAction(self.action_3)
-        self.menu.addAction(self.action)
-        self.menu.addAction(self.action_4)
-        self.menuBar.addAction(self.menu.menuAction())
-
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label.setText(_translate("MainWindow", "Текст сообщения:"))
         self.pushButton_2.setText(_translate("MainWindow", "назад"))
         self.pushButton_3.setText(_translate("MainWindow", "отправить"))
         self.menu.setTitle(_translate("MainWindow", "Меню"))
-        self.action_2.setText(_translate("MainWindow", "Создать новую учебную группу"))
-        self.action_3.setText(_translate("MainWindow", "Создать преподавателя"))
+        self.action_2.setText(_translate(
+            "MainWindow",
+            "Создать новую учебную группу")
+        )
+        self.action_3.setText(_translate(
+            "MainWindow",
+            "Создать преподавателя")
+        )
         self.action.setText(_translate("MainWindow", "История"))
         self.action_4.setText(_translate("MainWindow", "Список всех групп "))
 
 
-class Window_admin(QtWidgets.QMainWindow, Bot_ui):
-    def __init__(self):
-        super(Window_admin, self).__init__()
+class Window_bot(QtWidgets.QMainWindow, Bot_ui):
+    def __init__(self, group):
+        super(Window_bot, self).__init__()
         self.setupUi(self)
         self.bd = Bd()
         self.pushButton_3.clicked.connect(self.send_msg)
-        user = self.bd.get_net_id_group(1)
-    
+        self.group = group
+
     def send_msg(self):
         text = self.textEdit.toPlainText()
-        user = self.bd.get_net_id_group(1)
+        user = self.bd.get_net_id_group(self.group)
         n = len(user * 2)
         self.progressBar.setMaximum(n)
         self.progressBar.setValue(0)
@@ -114,15 +101,21 @@ class Window_admin(QtWidgets.QMainWindow, Bot_ui):
             self.progressBar.setValue(count)
             # VK
             vk_url = 'https://api.vk.com/method/messages.send?'
-            vk_token = 'access_token=vk1.a.HI5Te9AEY9jUb3PPIHHbWpRSh6W3UaJhcUvLDU_kkecWhuiEhG1n4DglOnRreAO3MfSscS64FNTtwmqoxF8iXISKB5LqHF8nr-1bahBY4k2K0Bft2xFV8Y_AAcbiO7SOWkkSupjxJAbOsxV7ZPAbKE9aiPdeZUGOZyURsyr-sqYtD5qWsJx0xd2cUlYg2wQUh5I9lpI6HnjL2uZO31W-Lg'
-            r = requests.get(vk_url + vk_token + f'&message={text}&random_id={random.randrange(0, 100000000)}&user_id={str(i[0])}&v=5.131')
+            vk_token = 'access_token=vk1.a.HI5Te9AEY9jUb3PPIHHbWpRSh6\
+                W3UaJhcUvLDU_kkecWhuiEhG1n4DglOnRreAO3MfSscS64FNTtwmq\
+                    oxF8iXISKB5LqHF8nr-1bahBY4k2K0Bft2xFV8Y_AAcbiO7SO\
+                        WkkSupjxJAbOsxV7ZPAbKE9aiPdeZUGOZyURsyr-sqYtD\
+                            5qWsJx0xd2cUlYg2wQUh5I9lpI6HnjL2uZO31W-Lg'
+            r = requests.get(
+                vk_url + vk_token +
+                f'&message={text}&random_id={random.randrange(0, 100000000)}\
+                    &user_id={str(i[0])}&v=5.131')
             count += 1
             self.progressBar.setValue(count)
-            
-        #discord
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
-    ex = Window_admin()
+    ex = Window_bot()
     ex.show()
     sys.exit(app.exec())

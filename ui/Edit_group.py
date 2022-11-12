@@ -75,8 +75,7 @@ class Group_ui(object):
         self.horizontalLayout_3.addLayout(self.verticalLayout_3)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setEnabled(True)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 535, 26))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 709, 26))
         self.menuBar.setObjectName("menuBar")
         self.menu = QtWidgets.QMenu(self.menuBar)
         self.menu.setObjectName("menu")
@@ -91,16 +90,17 @@ class Group_ui(object):
         self.action_4.setObjectName("action_4")
         self.menu.addAction(self.action_2)
         self.menu.addAction(self.action_3)
-        self.menu.addAction(self.action)
         self.menu.addAction(self.action_4)
+        self.menu.addAction(self.action)
         self.menuBar.addAction(self.menu.menuAction())
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label_2.setText(_translate("MainWindow", "Колличество учеников:"))
         self.label.setText(_translate("MainWindow", "Имя группы:"))
         self.label_3.setText(_translate("MainWindow", "Переподаватель"))
@@ -108,12 +108,10 @@ class Group_ui(object):
         self.pushButton.setText(_translate("MainWindow", "Сохранить"))
         self.menu.setTitle(_translate("MainWindow", "Меню"))
         self.action_2.setText(_translate(
-            "MainWindow",
-            "Создать новую учебную группу")
+            "MainWindow", "Создать новую учебную группу")
         )
         self.action_3.setText(_translate(
-            "MainWindow",
-            "Создать преподавателя")
+            "MainWindow", "Создать преподавателя")
         )
         self.action.setText(_translate("MainWindow", "История"))
         self.action_4.setText(_translate("MainWindow", "Список всех групп "))
