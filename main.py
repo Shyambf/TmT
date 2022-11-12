@@ -6,7 +6,6 @@ from ui.Group import Window_new_group
 from ui.Student import Window_student
 from ui.Add_user import Window_add_user
 from ui.Bot import Window_bot
-
 from ui.sql_api import Bd
 import time
 import sys

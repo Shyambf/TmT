@@ -10,10 +10,7 @@
 
 
 import sys
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-
-from ui.Menu import Ui_MainWindow
 from ui.sql_api import Bd
 
 
