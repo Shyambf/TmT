@@ -119,9 +119,11 @@ class Window_admin(QtWidgets.QMainWindow, Admin_ui):
         for i, row in enumerate(res):
             self.tableWidget.setRowCount(
                 self.tableWidget.rowCount() + 1)
+            print(row)
             for j, elem in enumerate(row):
                 if elem == row[3] and j == 3:
-                    elem = self.bd.get_teacher_by_id(row[3])[0]
+                    elem = self.bd.get_teacher_by_id(elem)
+                    print(elem)
                 self.tableWidget.setItem(
                     i, j, QtWidgets.QTableWidgetItem(str(elem)))
 

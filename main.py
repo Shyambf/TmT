@@ -127,7 +127,6 @@ Password = "{str(self.login.lineEdit_2.text())}"
     def add_student(self, window):
         window.close()
         self.std = Window_student(flag=False)
-        self.std.show()
 
     def bot(self, window, group):
         window.close()
@@ -148,7 +147,7 @@ Password = "{str(self.login.lineEdit_2.text())}"
             lambda: self.add_user(window)
             )
         window.action.triggered.connect(
-            lambda: self.add_student(window)
+            lambda: self.add_(window)
             )
         if not self.flag:
             window.menu.setDisabled(False)
@@ -163,7 +162,7 @@ if __name__ == '__main__':
         datefmt='%H:%M:%S',
         level=logging.INFO
     )
-    log.info('-' * 80)
+    log.info('-'*80)
     app = QApplication(sys.argv)
     main_app = MainFrom(log)
     sys.exit(app.exec_())
