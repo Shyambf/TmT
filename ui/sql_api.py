@@ -93,9 +93,8 @@ class Bd:
         self.conn.commit()
 
     def get_teacher_by_id(self, id: int):
-        return self.cur.execute(
-            "SELECT name FROM teacher WHERE id = (?)", (id,)
-        ).fetchone()[0]
+        print(self.cur.execute("SELECT name FROM teacher WHERE id = (?)", (id,)).fetchone())
+        return self.cur.execute("SELECT name FROM teacher WHERE id = (?)", (id,)).fetchone()
 
     def get_id_by_teacher(self, name) -> str:
         return self.cur.execute(
@@ -247,4 +246,5 @@ class Bd:
 
     def delete_teacher(self, id):
         self.cur.execute("DELETE FROM teacher WHERE id = (?);", (id,))
+        self.cur.execute("DELETE FROM groups WHERE id = (?);", (id))
         self.conn.commit()
